@@ -97,13 +97,13 @@
 | 项目 | 决定 | 说明 |
 |---|---|---|
 | 框架 | **React 19 + TypeScript** | TypeScript 提供编译期报错，是对非技术用户最重要的保险 |
-| 构建工具 | **Vite 7** | 改代码即时刷新；打包产物是纯静态文件 |
+| 构建工具 | **Vite 8** | 改代码即时刷新；打包产物是纯静态文件 |
 | 样式 | **Tailwind CSS v4**（`@tailwindcss/vite` 插件） | v4 不需要 `tailwind.config.js`，配置写在 CSS 里 |
 | PWA | **vite-plugin-pwa**，`registerType: 'autoUpdate'` | 自动生成 Service Worker 和 manifest |
 | 存储 | **localStorage**，封装在 `storage.ts` | 见 5.6 的切换条件 |
 | 测试 | **Vitest**，只测纯逻辑函数，不测界面 | 见产品文档 8.2 |
 | 部署 | **GitHub Pages** | 免费、自动 HTTPS；必须 HTTPS 才能用 Service Worker |
-| 版本管理 | `git init` | v1 完成后打第一个 tag |
+| 版本管理 | git，v1 已打标签 `v1.0.0` | 方便回退到可用版本 |
 
 **明确不引入**：路由库、状态管理库、组件库、日期库、图表库、Playwright / Cypress。
 
