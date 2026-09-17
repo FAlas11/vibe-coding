@@ -3,7 +3,7 @@ import { EXPENSES_KEY, SCHEMA_VERSION, SETTINGS_KEY } from './types.ts'
 
 /**
  * 所有函数写成 async 是刻意的：将来数据超过 1.5MB / 10000 条，或要做多设备同步时，
- * 只需把本文件换成 IndexedDB 实现，调用方一行都不用改。见 CLAUDE.md 6.6。
+ * 只需把本文件换成 IndexedDB 实现，调用方一行都不用改。见 CLAUDE.md 5.6。
  *
  * 本文件是唯一允许直接接触 localStorage 的地方。
  */

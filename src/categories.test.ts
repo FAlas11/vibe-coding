@@ -32,6 +32,11 @@ describe('分类表完整性', () => {
     expect(TOP_CATEGORIES.length).toBe(12)
   })
 
+  it('恰好 99 个二级小类（改动分类表时同步改这里和产品设计文档）', () => {
+    expect(CATEGORIES.filter((c) => c.parentId !== null)).toHaveLength(99)
+    expect(CATEGORIES).toHaveLength(111)
+  })
+
   it('没有空名字', () => {
     for (const c of CATEGORIES) expect(c.name.trim().length).toBeGreaterThan(0)
   })
