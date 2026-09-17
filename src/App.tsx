@@ -110,7 +110,7 @@ export default function App() {
           setEditing(null)
           setFormOpen(true)
         }}
-        className="safe-bottom fixed right-4 bottom-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-3xl leading-none text-white shadow-lg shadow-slate-900/25 active:bg-slate-700"
+        className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-20 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-3xl leading-none text-white shadow-lg shadow-slate-900/25 active:bg-slate-700"
       >
         <span className="-mt-1">＋</span>
       </button>
@@ -119,7 +119,7 @@ export default function App() {
         type="button"
         aria-label="设置与备份"
         onClick={() => setSettingsOpen(true)}
-        className="safe-top fixed top-3 right-3 z-20 rounded-full bg-white/15 px-3 py-1.5 text-xs text-white backdrop-blur"
+        className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-20 rounded-full bg-white px-4 py-3 text-sm text-slate-600 shadow-lg ring-1 ring-slate-200 active:bg-slate-100"
       >
         备份
       </button>

@@ -1,7 +1,9 @@
 import { renderToString } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import App from './App.tsx'
+import ExpenseForm from './components/ExpenseForm.tsx'
 import ExpenseList from './components/ExpenseList.tsx'
+import SettingsSheet from './components/SettingsSheet.tsx'
 import type { Expense } from './types.ts'
 
 /**
@@ -96,5 +98,61 @@ describe('ExpenseList 渲染', () => {
     )
     // 两组，每组各有一条明细 -¥12.34 和一个当日小计 ¥12.34
     expect(html.match(/¥12\.34/g)).toHaveLength(4)
+  })
+})
+
+describe('ExpenseForm 渲染', () => {
+  const noop = async () => true
+
+  it('新增模式下渲染出金额输入和分类选择', () => {
+    const html = render(<ExpenseForm initial={null} onSubmit={noop} onDelete={() => {}} onCancel={() => {}} />)
+    expect(html).toContain('记一笔')
+    expect(html).toContain('餐饮')
+    expect(html).toContain('交通')
+    expect(html).toContain('今天')
+    expect(html).toContain('保存')
+    // 金额输入框必须唤起手机数字键盘（服务端渲染保留大小写，故忽略大小写比较）
+    expect(html.toLowerCase()).toContain('inputmode="decimal"')
+    // 未输入金额时保存按钮不可点
+    expect(html).toContain('disabled')
+  })
+
+  it('新增模式下没有删除按钮', () => {
+    expect(render(<ExpenseForm initial={null} onSubmit={noop} onDelete={() => {}} onCancel={() => {}} />)).not.toContain(
+      '删除',
+    )
+  })
+
+  it('编辑模式下带出原金额和分类，并显示删除按钮', () => {
+    const html = render(
+      <ExpenseForm initial={record({ amountCents: 2350, note: '午饭' })} onSubmit={noop} onDelete={() => {}} onCancel={() => {}} />,
+    )
+    expect(html).toContain('编辑')
+    expect(html).toContain('23.50')
+    expect(html).toContain('午饭')
+    expect(html).toContain('删除')
+  })
+
+  it('编辑模式下选中项落在原来的分类上', () => {
+    const html = render(
+      <ExpenseForm initial={record({ subcategoryId: 'food.takeout' })} onSubmit={noop} onDelete={() => {}} onCancel={() => {}} />,
+    )
+    // 选中的小类按钮带深色背景
+    expect(html).toContain('bg-slate-900 font-medium text-white">外卖')
+  })
+})
+
+describe('SettingsSheet 渲染', () => {
+  it('渲染出导出、恢复和归类规则入口', () => {
+    const html = render(<SettingsSheet expenses={[record()]} onClose={() => {}} onApply={async () => true} />)
+    expect(html).toContain('导出备份（1 条）')
+    expect(html).toContain('从备份文件恢复')
+    expect(html).toContain('归类规则')
+    expect(html).toContain('数据体积')
+  })
+
+  it('提示用户备份是唯一保险', () => {
+    const html = render(<SettingsSheet expenses={[]} onClose={() => {}} onApply={async () => true} />)
+    expect(html).toContain('唯一的保险')
   })
 })
